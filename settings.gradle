@@ -1,0 +1,2 @@
+rootProject.name = "Regador"
+include ':app'
