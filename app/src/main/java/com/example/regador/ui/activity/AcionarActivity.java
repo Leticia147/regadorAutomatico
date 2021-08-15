@@ -1,64 +1,65 @@
 package com.example.regador.ui.activity;
 
 
-import android.app.DatePickerDialog;
-import android.app.TimePickerDialog;
-import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
-import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.android.volley.Request;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.regador.R;
-import java.time.LocalDateTime;
+import com.example.regador.http.ServerEndpoints;
 
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class AcionarActivity extends AppCompatActivity {
-    TextView textViewHoraFimImediato, textViewDataFimImediato;
-    LocalDateTime fim = LocalDateTime.now();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_acionar);
+        Button butttonLigar = findViewById(R.id.button_acionarRegador);
+        Button butttonDesliigar = findViewById(R.id.button_desligarRegador);
 
-        textViewHoraFimImediato = findViewById(R.id.textViewHoraFimImediato);
-        textViewDataFimImediato = findViewById(R.id.textViewDataFimImediato);
-
-        TimePickerDialog timePickerDialogFim = new TimePickerDialog(
-                this,
-                (view, hourOfDay, minute) -> {
-                    fim = LocalDateTime.of(fim.getYear(), fim.getMonthValue(), fim.getDayOfMonth() , hourOfDay, minute);
-                    textViewHoraFimImediato.setText(fim.getHour() + ":" + fim.getMinute() );
-                },
-                fim.getHour(),
-                fim.getMinute(),
-                true
-        );
-
-
-        DatePickerDialog datePickerDialogFim = new DatePickerDialog(
-                this,
-                (view, year, month, dayOfMonth) -> {
-                    fim = LocalDateTime.of(year, month+1, dayOfMonth, fim.getHour(), fim.getMinute());
-                    textViewDataFimImediato.setText(fim.getDayOfMonth() + "/" + fim.getMonthValue()  + "/" + fim.getYear() );
-                },
-                fim.getYear(),
-                fim.getMonthValue()-1,
-                fim.getDayOfMonth()
-        );
-
-
-
-        textViewDataFimImediato.setOnClickListener(v -> datePickerDialogFim.show());
-        textViewHoraFimImediato.setOnClickListener(v -> timePickerDialogFim.show());
-
-        Button butttonLigar = findViewById(R.id.button_ligar2);
-
-        butttonLigar.setOnClickListener(v -> startActivity(new Intent(AcionarActivity.this, MainActivity.class)));
-
-
+        butttonLigar.setOnClickListener(v -> sendLigar());
+        butttonDesliigar.setOnClickListener(v -> sendDesligar());
     }
+
+    public void sendLigar() {
+        try {
+            Volley.newRequestQueue(this).add(
+                    new JsonObjectRequest(
+                            Request.Method.POST,
+                            ServerEndpoints.LIGAR.getUrl(),
+                            null,
+                            response -> Toast.makeText(getApplicationContext(), "Regador ligado com sucesso!", Toast.LENGTH_LONG).show(),
+                            error -> Toast.makeText(getApplicationContext(), "Erro ao ligar. Motivo: " + error.getMessage(), Toast.LENGTH_LONG).show()
+                    )
+            );
+        } catch (Exception e) {
+
+        }
+    }
+
+    public void sendDesligar() {
+        try {
+            Volley.newRequestQueue(this).add(
+                    new JsonObjectRequest(
+                            Request.Method.POST,
+                            ServerEndpoints.DESLIGAR.getUrl(),
+                            null,
+                            response -> Toast.makeText(getApplicationContext(), "Regador desligado com sucesso!", Toast.LENGTH_LONG).show(),
+                            error -> Toast.makeText(getApplicationContext(), "Erro ao desligar. Motivo: " + error.getMessage(), Toast.LENGTH_LONG).show()
+                    )
+            );
+        } catch (Exception e) {
+
+        }
+    }
+
 }
 

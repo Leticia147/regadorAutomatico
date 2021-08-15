@@ -2,6 +2,7 @@ package com.example.regador.ui.activity;
 
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.Button;
@@ -18,6 +19,8 @@ import com.android.volley.toolbox.Volley;
 import com.example.regador.R;
 import com.example.regador.http.ServerEndpoints;
 import com.example.regador.http.model.AgendamentoRequest;
+import com.example.regador.http.model.ApiError;
+import com.google.gson.Gson;
 
 import org.json.JSONException;
 
@@ -29,6 +32,7 @@ public class AgendarActivity extends AppCompatActivity implements DatePickerDial
     LocalDateTime fim = LocalDateTime.now();
     TextView textViewDataInicio, textViewHoraInicio, textViewDataFim, textViewHoraFim;
     Button buttonAgendarFim;
+    Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,7 +95,10 @@ public class AgendarActivity extends AppCompatActivity implements DatePickerDial
         textViewHoraInicio.setOnClickListener(v -> timePickerDialogInicio.show());
         textViewDataFim.setOnClickListener(v -> datePickerDialogFim.show());
         textViewHoraFim.setOnClickListener(v -> timePickerDialogFim.show());
-        buttonAgendarFim.setOnClickListener(view -> sendAgendamentoRequest(new AgendamentoRequest(inicio, fim)));
+        buttonAgendarFim.setOnClickListener(view -> {
+            sendAgendamentoRequest(new AgendamentoRequest(inicio, fim));
+            startActivity(new Intent(AgendarActivity.this, MainActivity.class));
+        });
     }
 
 
@@ -102,8 +109,14 @@ public class AgendarActivity extends AppCompatActivity implements DatePickerDial
                             Request.Method.POST,
                             ServerEndpoints.AGENDAR.getUrl(),
                             agendamentoRequest.toJSONObject(),
-                            response -> Toast.makeText(getApplicationContext(), "Agendamento realizado com sucesso!", Toast.LENGTH_SHORT).show(),
-                            error -> Toast.makeText(getApplicationContext(), "Erro ao agendar. Motivo: " + error.getMessage(), Toast.LENGTH_SHORT).show()
+                            response -> {
+                                Toast.makeText(getApplicationContext(), "Agendamento realizado com sucesso!", Toast.LENGTH_SHORT).show();
+                            },
+                            error -> {
+                                ApiError apiError = gson.fromJson(new String(error.networkResponse.data), ApiError.class);
+
+                                Toast.makeText(getApplicationContext(), "Erro ao agendar. Motivo: " + apiError.getMessage(), Toast.LENGTH_SHORT).show();
+                            }
                     )
             );
         } catch (JSONException e) {
