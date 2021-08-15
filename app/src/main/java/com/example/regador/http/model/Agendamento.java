@@ -1,4 +1,4 @@
-package com.example.regador.ui.activity;
+package com.example.regador.http.model;
 
 import java.time.LocalDateTime;
 

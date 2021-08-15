@@ -12,8 +12,6 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.regador.R;
 
-import java.util.Calendar;
-
 public class MainActivity extends AppCompatActivity implements DatePickerDialog.OnDateSetListener {
     int tHour, tMinute;
     private Button buttonAgendar;
@@ -32,18 +30,6 @@ public class MainActivity extends AppCompatActivity implements DatePickerDialog.
         buttonAgendar.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, AgendarActivity.class)));
         buttonAcionar.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, AcionarActivity.class)));
         buttonAgendamentos.setOnClickListener(v -> startActivity(new Intent(MainActivity.this, AgendamentosActivity.class)));
-    }
-
-
-    public void showDatePickerDialoger() {
-        DatePickerDialog datePickerDialog = new DatePickerDialog(
-                this,
-                this,
-                Calendar.getInstance().get(Calendar.YEAR),
-                Calendar.getInstance().get(Calendar.MONTH),
-                Calendar.getInstance().get(Calendar.DAY_OF_MONTH)
-        );
-        datePickerDialog.show();
     }
 
     public void onDateSet(DatePicker view, int year, int month, int dayOfMonth) {

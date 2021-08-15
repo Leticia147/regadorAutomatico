@@ -1,5 +1,7 @@
 package com.example.regador.ui.activity;
 
+import static com.example.regador.ui.activity.AgendamentosActivity.gson;
+
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.content.Intent;
@@ -20,7 +22,6 @@ import com.example.regador.R;
 import com.example.regador.http.ServerEndpoints;
 import com.example.regador.http.model.AgendamentoRequest;
 import com.example.regador.http.model.ApiError;
-import com.google.gson.Gson;
 
 import org.json.JSONException;
 
@@ -32,7 +33,6 @@ public class AgendarActivity extends AppCompatActivity implements DatePickerDial
     LocalDateTime fim = LocalDateTime.now();
     TextView textViewDataInicio, textViewHoraInicio, textViewDataFim, textViewHoraFim;
     Button buttonAgendarFim;
-    Gson gson = new Gson();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

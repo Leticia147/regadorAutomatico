@@ -27,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.regador.R;
 import com.example.regador.http.LocalDateTimeAdapter;
 import com.example.regador.http.ServerEndpoints;
+import com.example.regador.http.model.Agendamento;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -41,7 +42,7 @@ import java.util.List;
 @RequiresApi(api = Build.VERSION_CODES.O)
 public class AgendamentosActivity extends AppCompatActivity  {
 
-    private static final Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
+    public static final Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeAdapter()).create();
     List<Agendamento> agendamentosList;
     MyAdapter adapter;
 
@@ -145,7 +146,8 @@ public class AgendamentosActivity extends AppCompatActivity  {
             startActivity(new Intent(AgendamentosActivity.this, AgendamentosActivity.class));
         }
         else if ("Editar".equals(item.toString())) {
-            Toast.makeText(getApplicationContext(), "PARA EDITAR.", Toast.LENGTH_LONG).show();
+            editarItemAgendamento(agendamentosList.get(info.position).getId());
+         //   Toast.makeText(getApplicationContext(), "PARA EDITAR."+ agendamentosList.get(info.position).getId(), Toast.LENGTH_LONG).show();
         }
         return true;
     }
@@ -160,5 +162,11 @@ public class AgendamentosActivity extends AppCompatActivity  {
                         error -> Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show()
                 )
         );
+    }
+
+    public void editarItemAgendamento(String id){
+        Intent i = new Intent(AgendamentosActivity.this, EditarActivity.class);
+        i.putExtra("key", id);
+        startActivity(i);
     }
 }

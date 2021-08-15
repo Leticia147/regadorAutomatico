@@ -4,6 +4,7 @@ public enum ServerEndpoints {
 
     AGENDAR("/regador/agendar"),
     AGENDAMENTOS("/regador/agendamentos"),
+    AGENDAMENTO("/regador/agendamento/"),
     EDITAR("/regador/agendar/"),
     DELETAR("/regador/agendamentos/"),
     LIGAR("/regador/ligar"),

@@ -23,6 +23,7 @@
         <activity android:name=".ui.activity.AcionarActivity" />
         <activity android:name=".ui.activity.AgendarActivity" />
         <activity android:name=".ui.activity.AgendamentosActivity" />
+        <activity android:name=".ui.activity.EditarActivity" />
     </application>
 
 </manifest>

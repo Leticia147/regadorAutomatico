@@ -1,16 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="5dp">
 
     <ImageView
-        android:layout_width="76dp"
-        android:layout_height="76dp"
-        android:src="@mipmap/ic_launcher"
-        android:id="@+id/iconeImagem"/>
+        android:id="@+id/imageView"
+        android:layout_width="12dp"
+        android:layout_height="115dp"
+        android:background="#612196F3"
+        app:srcCompat="?android:attr/textSelectHandle" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,20 +21,25 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="4dp"
             android:text="Inicio"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/textViewDataHoraInicio"
+            android:padding="4dp"
             android:text="HoraInicio"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:padding="4dp"
             android:text="Fim"/>
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/extViewDataHoraFim"
+            android:padding="4dp"
             android:text="HoraFim"/>
     </LinearLayout>
+
 </LinearLayout>
